@@ -23,7 +23,7 @@ class BankAccount {
             cin >> accountNumber;
 
             showDetails();
-            saveDetail();
+            saveAccount();
         }
 
 
@@ -36,7 +36,7 @@ class BankAccount {
         };
         
 
-        void saveDetail(){
+        void saveAccount(){
             ofstream allAccounts("all_accounts.txt");
 
             allAccounts << "Account Holder Name: " << ownerName << endl;
@@ -44,6 +44,18 @@ class BankAccount {
             allAccounts << "Balance: " << balance << endl;
 
             allAccounts.close();
+        };
+        
+        
+        void loadAllAccounts(){
+            string lines;
+            fstream Accounts("all_accounts.txt");
+
+            while(getline(Accounts, lines)){
+                cout << lines;
+            };
+
+            Accounts.close();
         };
 
 
@@ -89,11 +101,11 @@ int main(){
 
     BankAccount account;
 
-    account.showDetails();
+    account.loadAllAccounts();
 
     int choice;
 
-    cout << "Menu" << endl;
+    cout << "\nMenu" << endl;
     cout << "1. Create New Account" << endl;
     cout << "2. Deposite Money" << endl;
     cout << "3. Withdraw Money" << endl;
