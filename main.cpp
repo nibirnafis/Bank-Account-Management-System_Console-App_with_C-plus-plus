@@ -1,45 +1,67 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <fstream> //----for file handling
 using namespace std;
-
-
-struct account {
-    string svdName;
-    string svdAccNum;
-    double svdBalance;
-};
 
 
 class BankAccount {
     private:
         string ownerName;
         string accountNumber;
-        double balance;
+        double balance = 0;
+
 
     public:
-        BankAccount(string name, string accN, double blnc){
-            ownerName = name;
-            accountNumber = accN;
-            balance = blnc;
-        };
+
+        void createAccount(){
+            cout << "--- Create Bank Account ---" << endl;
+
+            cout << "Type Your Name: " << endl;
+            cin >> ownerName;
+            cout << "Account Number: " << endl;
+            cin >> accountNumber;
+
+            showDetails();
+            saveDetail();
+        }
+
 
         void showDetails(){
-            cout << "Owner Name: " << ownerName << endl;
+            cout << "--- Bank Account Details ---" << endl;
+
+            cout << "Account Holder Name: " << ownerName << endl;
             cout << "Account Number: " << accountNumber << endl;
             cout << "Balance: " << balance << endl;
         };
         
+
+        void saveDetail(){
+            ofstream allAccounts("all_accounts.txt");
+
+            allAccounts << "Account Holder Name: " << ownerName << endl;
+            allAccounts << "Account Number: " << accountNumber << endl;
+            allAccounts << "Balance: " << balance << endl;
+
+            allAccounts.close();
+        };
+
+
         void depositeMoney(){
             int depositeAmount;
             
             cout << "--- Deposite Money ---" << endl;
+
             cout << "Deposite Amount: ";
             cin >> depositeAmount;
 
-            int newAmount =  balance + depositeAmount;
-            cout << "New Amount: " << newAmount << endl;
+            balance =  balance + depositeAmount;
+            cout << "New Amount: " << balance << endl;
+
+            showDetails();
         };
         
+
         void withdrawMoney(){
             int widthrawAmount;
             
@@ -47,10 +69,16 @@ class BankAccount {
             cout << "Withdraw Amount: \n";
             cin >> widthrawAmount;
 
-            int newAmount = balance - widthrawAmount;
-            cout << "New Amount: " << newAmount << endl;
+            balance = balance - widthrawAmount;
+            cout << "New Amount: " << balance << endl;
+
+            showDetails();
         };
+
 };
+
+
+
 
 
 int main(){
@@ -59,42 +87,33 @@ int main(){
     string accNum;
     double blnc;
 
-    cout << "Type Your Name: \n";
-    cin >> name;
-    cout << "Type Your AC: \n";    
-    cin >> accNum;
-    cout << "Initial Balance: \n";
-    cin >> blnc;
-
-
-    BankAccount account(name, accNum, blnc);
+    BankAccount account;
 
     account.showDetails();
 
     int choice;
-    do{
-        cout << "Menu" << endl;
-        cout << "1. Deposite Money" << endl;
-        cout << "2. Withdraw Money" << endl;
-        cin >> choice;
-        
-        switch(choice){
-            case 1: {
-                account.depositeMoney();
-                break;
-            };
-            case 2: {
-                account.withdrawMoney();
-                break;
-            };
-            default: 
-                cout << "Invalid Choice!! Try Again" << endl;
-        }
-    }while (choice < 3);
+
+    cout << "Menu" << endl;
+    cout << "1. Create New Account" << endl;
+    cout << "2. Deposite Money" << endl;
+    cout << "3. Withdraw Money" << endl;
+    cout << "4. Show All Accounts" << endl;
+    cout << "Enter Your Choice: " << endl;
+    cin >> choice;
+
+
+    if(choice == 1){
+        account.createAccount();
+    }else if(choice == 2){
+        account.depositeMoney();
+    }else if(choice == 3){
+        account.withdrawMoney();
+    }else{
+        cout << "Invalid Choice!! Try Again" << endl;
+    };
     
     return 0;
 }
-
 
 
 

@@ -1,0 +1,3 @@
+Account Holder Name: Nibir
+Account Number: 123456789
+Balance: 0
